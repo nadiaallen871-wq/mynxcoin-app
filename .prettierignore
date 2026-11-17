@@ -1,0 +1,6 @@
+node_modules
+dist
+coverage
+.devdata
+package-lock.json
+server/prisma/migrations

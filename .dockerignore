@@ -1,0 +1,39 @@
+# Keep secrets, local data and build output out of images. Images get configuration from the
+# environment at run time (see documentation/deployment.md), never from files baked in.
+
+# Secrets and local configuration (examples are kept for reference)
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
+
+# Private document storage and local databases
+server/storage/
+server/uploads/
+.devdata/
+
+# Dependencies and build output (rebuilt inside the image)
+**/node_modules/
+**/dist/
+**/coverage/
+
+# Tests, reports and tooling not needed at run time
+e2e/
+playwright-report/
+test-results/
+server/tests/
+client/src/test/
+**/*.test.js
+**/*.test.jsx
+
+# VCS, editors, OS files
+.git/
+.github/
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+
+# Developer-only scripts that depend on the test suite
+server/scripts/perf-smoke.js

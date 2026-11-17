@@ -8,26 +8,26 @@ hardcoded responses don't count.
 
 ## Phase 1: Foundation
 
-| Requirement                                             | Status | Files                                                       | Tests                                       | Notes                                                    |
-| ------------------------------------------------------- | ------ | ----------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------- |
-| Workspace inspected, monorepo initialised               | ✅     | `package.json` (npm workspaces)                             | n/a                                         |                                                          |
-| React + Vite + Tailwind + Router + TanStack Query       | ✅     | `client/`                                                   | `client/src/**/*.test.jsx`                  |                                                          |
-| Express 5 API with layered structure, `/api/v1`         | ✅     | `server/src/app.js`, `server/src/modules/`                  | `server/tests/integration/app.test.js`      |                                                          |
-| Env config validated with Zod                           | ✅     | `server/src/config/env.js`                                  | `server/tests/unit/env.test.js`             |                                                          |
-| Structured logging with secret redaction                | ✅     | `server/src/config/logger.js`                               | `server/tests/unit/logger.test.js`          |                                                          |
-| Helmet, CORS allowlist, rate limiting, request IDs      | ✅     | `server/src/middleware/`                                    | `app.test.js`                               |                                                          |
-| Consistent error envelope                               | ✅     | `server/src/middleware/error-handler.js`, `utils/errors.js` | `app.test.js`                               |                                                          |
-| Money utilities (BigInt minor units, explicit rounding) | ✅     | `server/src/utils/money.js`                                 | `server/tests/unit/money.test.js`           |                                                          |
-| PostgreSQL + Prisma + first migration                   | ✅     | `server/prisma/`                                            | `server/tests/integration/database.test.js` |                                                          |
-| Append-only audit log (DB trigger)                      | ✅     | migration `20261108030025_foundation`                       | `database.test.js`                          |                                                          |
-| RBAC catalogue (10 roles, permission set) seeded        | ✅     | `server/src/config/permissions.js`, `prisma/seed.js`        | `database.test.js`                          | enforced since Phase 2                                   |
-| Redis + BullMQ with retry, backoff, DLQ                 | ✅     | `server/src/jobs/`                                          | `server/tests/integration/queue.test.js`    |                                                          |
-| Health and readiness endpoints                          | ✅     | `server/src/modules/health/`                                | `app.test.js`                               |                                                          |
-| Docker Compose, Dockerfiles, Nginx                      | 🟡     | `docker-compose.yml`, `infrastructure/`                     | n/a                                         | Written. Not run: Docker isn't installed on this machine |
-| ESLint + Prettier                                       | ✅     | `eslint.config.js`, `.prettierrc.json`                      | `npm run lint`                              |                                                          |
-| CI pipeline                                             | 🟡     | `.github/workflows/ci.yml`                                  | n/a                                         | Written. Runs once the repo is pushed to GitHub          |
-| Design system and three layouts                         | ✅     | `client/src/components/ui/`, `client/src/layouts/`          | component tests                             |                                                          |
-| Architecture docs                                       | ✅     | `documentation/`                                            | n/a                                         |                                                          |
+| Requirement                                             | Status | Files                                                       | Tests                                       | Notes                                           |
+| ------------------------------------------------------- | ------ | ----------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------- |
+| Workspace inspected, monorepo initialised               | ✅     | `package.json` (npm workspaces)                             | n/a                                         |                                                 |
+| React + Vite + Tailwind + Router + TanStack Query       | ✅     | `client/`                                                   | `client/src/**/*.test.jsx`                  |                                                 |
+| Express 5 API with layered structure, `/api/v1`         | ✅     | `server/src/app.js`, `server/src/modules/`                  | `server/tests/integration/app.test.js`      |                                                 |
+| Env config validated with Zod                           | ✅     | `server/src/config/env.js`                                  | `server/tests/unit/env.test.js`             |                                                 |
+| Structured logging with secret redaction                | ✅     | `server/src/config/logger.js`                               | `server/tests/unit/logger.test.js`          |                                                 |
+| Helmet, CORS allowlist, rate limiting, request IDs      | ✅     | `server/src/middleware/`                                    | `app.test.js`                               |                                                 |
+| Consistent error envelope                               | ✅     | `server/src/middleware/error-handler.js`, `utils/errors.js` | `app.test.js`                               |                                                 |
+| Money utilities (BigInt minor units, explicit rounding) | ✅     | `server/src/utils/money.js`                                 | `server/tests/unit/money.test.js`           |                                                 |
+| PostgreSQL + Prisma + first migration                   | ✅     | `server/prisma/`                                            | `server/tests/integration/database.test.js` |                                                 |
+| Append-only audit log (DB trigger)                      | ✅     | migration `20261108030025_foundation`                       | `database.test.js`                          |                                                 |
+| RBAC catalogue (10 roles, permission set) seeded        | ✅     | `server/src/config/permissions.js`, `prisma/seed.js`        | `database.test.js`                          | enforced since Phase 2                          |
+| Redis + BullMQ with retry, backoff, DLQ                 | ✅     | `server/src/jobs/`                                          | `server/tests/integration/queue.test.js`    |                                                 |
+| Health and readiness endpoints                          | ✅     | `server/src/modules/health/`                                | `app.test.js`                               |                                                 |
+| Docker Compose, Dockerfiles, Nginx                      | 🟡     | `docker-compose.yml`, `infrastructure/`                     | n/a                                         | Images build in CI; not yet run as containers   |
+| ESLint + Prettier                                       | ✅     | `eslint.config.js`, `.prettierrc.json`                      | `npm run lint`                              |                                                 |
+| CI pipeline                                             | 🟡     | `.github/workflows/ci.yml`                                  | n/a                                         | Written. Runs once the repo is pushed to GitHub |
+| Design system and three layouts                         | ✅     | `client/src/components/ui/`, `client/src/layouts/`          | component tests                             |                                                 |
+| Architecture docs                                       | ✅     | `documentation/`                                            | n/a                                         |                                                 |
 
 ### Phase 1 verification log (2026-11-08)
 
@@ -322,7 +322,7 @@ Assessment: [production-readiness.md](production-readiness.md).
 | Migration verification                     | ✅          | CI migrate + drift check                                             | drift check             | One unused index reverted after measurement                              |
 | Backup restore drill                       | ✅          | `infrastructure/backup/restore-drill.mjs`                            | `npm run backup:drill`  | Passed 6/6 on dev and test DBs                                           |
 | Observability: metrics                     | ✅          | `middleware/metrics.js`                                              | `metrics.test.js`       | Token-protected Prometheus endpoint                                      |
-| CI/CD                                      | 🟡          | `.github/workflows/ci.yml` (verify, e2e, images)                     | —                       | Not run on GitHub yet (no remote). No deploy jobs (no cloud target)      |
+| CI/CD                                      | 🟡          | `.github/workflows/ci.yml` (verify, e2e, images)                     | —                       | All jobs green on GitHub (2026-11-17). No deploy jobs (no cloud target)  |
 | Staging deployment                         | ⬜          | —                                                                    | —                       | No hosting, registry or Docker available here                            |
 | Error tracking service                     | ⬜          | —                                                                    | —                       | Vendor not chosen                                                        |
 | Record retention                           | ⬜          | —                                                                    | —                       | Needs a legal decision                                                   |
@@ -341,7 +341,10 @@ Assessment: [production-readiness.md](production-readiness.md).
 - Found and fixed: secrets would have entered images; go-live gate not enforced; sandbox providers allowed in live
   mode; non-writable storage in the container; the monitoring-alert test depended on pagination; the metrics route
   label lost its mount prefix.
-- Not done: staging deployment, Docker image builds (no Docker here), first CI run on GitHub, ZAP scan, pen test.
+- Not done: staging deployment, running the images as containers, ZAP scan, pen test.
+- 2026-11-17, first CI runs on GitHub. The first failed because the Prisma client was never generated (fixed with a
+  server `postinstall`). The server Dockerfile also had a broken `RUN` line, fixed in the same commit. Run
+  [44070881534](https://github.com/nadiaallen871-wq/mynxcoin-app/actions/runs/44070881534) then passed verify, e2e and images.
 
 ## External prerequisites (cannot be completed in code)
 

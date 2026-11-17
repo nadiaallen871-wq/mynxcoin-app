@@ -51,9 +51,9 @@ database. Its global setup creates fresh accounts for each run. Reports go to `p
 - **e2e job:** Playwright on Chromium. The report is uploaded as an artifact.
 - **images job:** builds both Docker images (not pushed).
 
-The e2e, images and restore-drill steps were added in Phase 10. They run locally (except the image builds: Docker is
-not installed on the development machine) but **have not yet run on GitHub Actions**; the first push will be their first
-CI run.
+All jobs passed on GitHub Actions on 2026-11-17 ([run](https://github.com/nadiaallen871-wq/mynxcoin-app/actions/runs/44070881534), commit `9c82ade`). The first run failed: every
+integration test reported "@prisma/client did not initialize yet", because CI installed packages without generating
+the Prisma client. The server's `postinstall` script now runs `prisma generate`.
 
 ## Known flakiness
 

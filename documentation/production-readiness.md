@@ -9,26 +9,26 @@ prerequisites that cannot be met in code. Live mode is deliberately impossible u
 
 ## Quality acceptance criteria (from the build specification)
 
-| Criterion                                                      | Status               | Evidence                                                                                                             |
-| -------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| All 16 core modules implemented                                | ✅                   | See the module table below and the traceability matrix in [implementation-checklist.md](implementation-checklist.md) |
-| All 8 engineering requirements implemented                     | ✅ with noted gaps   | See the engineering table below                                                                                      |
-| Additional capabilities implemented or dependencies documented | ✅                   | [advanced-capabilities.md](advanced-capabilities.md)                                                                 |
-| React frontend connects to backend APIs                        | ✅                   | Playwright journeys against the real API ([testing.md](testing.md))                                                  |
-| Backend connects to PostgreSQL                                 | ✅                   | All integration tests run on PostgreSQL                                                                              |
-| Database migrations work                                       | ✅                   | Applied from scratch in CI; drift check; restore drill confirms migrations restore                                   |
-| Authentication works                                           | ✅                   | `auth.test.js`, `mfa.test.js`; E2E sign-in with MFA                                                                  |
-| Permissions are enforced                                       | ✅                   | Route-wide authorization sweep (`security-sweep.test.js`), per-module tests                                          |
-| Financial ledger entries balance                               | ✅                   | Deferred DB trigger per currency; reconciliation after money tests; restore drill re-checks                          |
-| Duplicate financial requests are prevented                     | ✅                   | Idempotency keys, single-use quotes, conditional state transitions; racing-submission tests                          |
-| Payment webhooks authenticated and replay-safe                 | ✅                   | HMAC-SHA512 constant-time check, unique event IDs, provider re-verification (`payments.test.js`)                     |
-| Investment processing is transaction-safe                      | ✅                   | Row locks on capacity, atomic reservation, state machines (`orders.test.js`, `critical-paths.test.js`)               |
-| Administrative actions are audited                             | ✅                   | Append-only `audit_logs`; viewer with export                                                                         |
-| Error handling is consistent                                   | ✅                   | One error envelope with request IDs; 5xx never leak internals                                                        |
-| Automated tests pass                                           | ✅                   | Server 299, client 28, E2E 20 passed + 1 skipped (locally, 2026-11-14)                                               |
-| Production builds succeed                                      | ✅                   | `npm run build`; E2E runs against the production bundle                                                              |
-| Backup and recovery procedures tested                          | ✅ (logical backups) | `npm run backup:drill` passed on dev and test databases; PITR not yet set up (no hosting)                            |
-| Security findings reviewed and addressed                       | ✅ (internal review) | Below. An external penetration test is a go-live prerequisite                                                        |
+| Criterion                                                      | Status               | Evidence                                                                                                                                                                                      |
+| -------------------------------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All 16 core modules implemented                                | ✅                   | See the module table below and the traceability matrix in [implementation-checklist.md](implementation-checklist.md)                                                                          |
+| All 8 engineering requirements implemented                     | ✅ with noted gaps   | See the engineering table below                                                                                                                                                               |
+| Additional capabilities implemented or dependencies documented | ✅                   | [advanced-capabilities.md](advanced-capabilities.md)                                                                                                                                          |
+| React frontend connects to backend APIs                        | ✅                   | Playwright journeys against the real API ([testing.md](testing.md))                                                                                                                           |
+| Backend connects to PostgreSQL                                 | ✅                   | All integration tests run on PostgreSQL                                                                                                                                                       |
+| Database migrations work                                       | ✅                   | Applied from scratch in CI; drift check; restore drill confirms migrations restore                                                                                                            |
+| Authentication works                                           | ✅                   | `auth.test.js`, `mfa.test.js`; E2E sign-in with MFA                                                                                                                                           |
+| Permissions are enforced                                       | ✅                   | Route-wide authorization sweep (`security-sweep.test.js`), per-module tests                                                                                                                   |
+| Financial ledger entries balance                               | ✅                   | Deferred DB trigger per currency; reconciliation after money tests; restore drill re-checks                                                                                                   |
+| Duplicate financial requests are prevented                     | ✅                   | Idempotency keys, single-use quotes, conditional state transitions; racing-submission tests                                                                                                   |
+| Payment webhooks authenticated and replay-safe                 | ✅                   | HMAC-SHA512 constant-time check, unique event IDs, provider re-verification (`payments.test.js`)                                                                                              |
+| Investment processing is transaction-safe                      | ✅                   | Row locks on capacity, atomic reservation, state machines (`orders.test.js`, `critical-paths.test.js`)                                                                                        |
+| Administrative actions are audited                             | ✅                   | Append-only `audit_logs`; viewer with export                                                                                                                                                  |
+| Error handling is consistent                                   | ✅                   | One error envelope with request IDs; 5xx never leak internals                                                                                                                                 |
+| Automated tests pass                                           | ✅                   | Server 299, client 28, E2E 20 passed + 1 skipped (locally, 2026-11-14); all CI jobs green on GitHub ([2026-11-17](https://github.com/nadiaallen871-wq/mynxcoin-app/actions/runs/44070881534)) |
+| Production builds succeed                                      | ✅                   | `npm run build`; E2E runs against the production bundle                                                                                                                                       |
+| Backup and recovery procedures tested                          | ✅ (logical backups) | `npm run backup:drill` passed on dev and test databases; PITR not yet set up (no hosting)                                                                                                     |
+| Security findings reviewed and addressed                       | ✅ (internal review) | Below. An external penetration test is a go-live prerequisite                                                                                                                                 |
 
 ### Core modules
 
@@ -111,8 +111,8 @@ queries confirmed index use (dashboard, statements, monitoring, risk score).
 **Not performed.** There is no hosting account, domain or container registry for this project, and Docker is not
 installed on the development machine. What exists:
 
-- Dockerfiles for the API/worker and the web app (non-root, healthchecked). They are built in CI (`images` job), not
-  pushed, and **unverified until the first CI run**.
+- Dockerfiles for the API/worker and the web app (non-root, healthchecked). They build in CI (`images` job, green on
+  2026-11-17). They are not pushed and have not yet been run as containers.
 - `docker-compose.yml` for a staging-like stack.
 - [deployment.md](deployment.md) with the target topology and runbook.
 

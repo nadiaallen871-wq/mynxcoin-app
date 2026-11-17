@@ -22,8 +22,9 @@ docker compose --profile app up -d --build
 
 The `migrate` service runs `prisma migrate deploy` and the seed before `api` and `worker` start.
 
-> Not yet verified: Docker isn't installed on the development machine, so the images and the Compose stack have never
-> been built or run here. CI now builds both images (`images` job), but that job has not run yet.
+> Partly verified: CI builds both images (`images` job), first green on 2026-11-17 ([run](https://github.com/nadiaallen871-wq/mynxcoin-app/actions/runs/44070881534)). Nobody has _run_ the
+> images or the Compose stack yet: Docker isn't installed on the development machine. Start them on a Docker host
+> before relying on them.
 
 Image notes (Phase 10):
 
@@ -45,7 +46,8 @@ Image notes (Phase 10):
 - **e2e:** the Playwright suite against the production build.
 - **images:** builds both Dockerfiles without pushing them.
 
-**The Phase 10 jobs have not run on GitHub yet.** The repository has no remote, so expect fixes on the first run.
+All three jobs passed on GitHub Actions on 2026-11-17 ([run](https://github.com/nadiaallen871-wq/mynxcoin-app/actions/runs/44070881534), commit `9c82ade`). The first run failed because
+CI never generated the Prisma client; a `postinstall` script in `server/package.json` now does.
 
 Deployment jobs are not written. Building and pushing images, the staging deploy and the manual production approval
 need a registry and a cloud target, which haven't been chosen.

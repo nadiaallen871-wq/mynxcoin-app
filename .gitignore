@@ -5,7 +5,8 @@ coverage/
 *.log
 .env
 .env.*
-!.env.example
+# Templates (development and test values only) are committed; real .env files never are.
+!.env*.example
 .DS_Store
 Thumbs.db
 .vscode/*
